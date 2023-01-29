@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style_1.css">
+</head>
+
+<body>
+    <div class="container">
+        <form action="">
+            <div class="input-box">
+                <img src="images/wellcome-img.png" alt="">
+            </div>
+            <div class="input-box">
+                <label for="">Name</label>
+                <input type="text" placeholder="Enter you name" id="name">
+            </div>
+            <div class="input-box">
+                <label for="">User Name</label>
+                <input type="text" placeholder="Enter you User" id="username">
+            </div>
+            <div class="input-box">
+                <label for="">Password</label>
+                <input type="text" placeholder="Enter your Password" id="password">
+            </div>
+            <div class="input-box">
+                <label for="">Confrim Password</label>
+                <input type="text" placeholder="Enter you name" id="confrim_password">
+            </div>
+            <p id="error"></p>
+            <div class="button-box">
+                <button id="btn">SIGN IN</button>
+
+            </div>
+        </form>
+    </div>
+    <script>
+        let btn = document.getElementById("btn");
+        btn.addEventListener("click", validateForm);
+        let arr = [];
+
+
+        function validateForm(e) {
+
+            e.preventDefault();
+            let name = document.getElementById("name").value;
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+            let error = document.getElementById("error");
+            let confrim_password = document.getElementById("confrim_password").value;
+
+            if (!nameValid(name, error)) {
+                error.innerHTML = "Name should be contain at least 3"
+            }
+            else if (!usernameValid(username, error)) {
+                error.innerHTML = "username should be contain at least 3"
+            }
+            else if (!checkPasword(password)) {
+                error.innerHTML = "Password should be 1 small 1 and capital character";
+            }
+            else if (password != confrim_password) {
+                error.innerHTML = "Password and confrim password did not match";
+            } else {
+                error.innerHTML = " ";
+                let obj = { name, username, password }
+                arr.push(obj);
+                localStorage.setItem("data", JSON.stringify(arr));
+                window.location.href = "carGame/sing.html"
+            }
+
+        }
+        //------------------------------Name valid validation 
+        function nameValid(name, errors) {
+            if (name.length > 2) {
+                error.innerHTML = "";
+                return true;
+            }
+            return false;
+        }
+
+        function usernameValid(username, error) {
+            if (username.length > 2) {
+                error.innerHTML = "";
+                return true;
+            }
+            return false;
+        }
+        //------------------------------Name valid End      
+        function checkPasword(password) {
+            let cl = 0, sl = 0, n = 0, sc = 0;
+            for (let t of password) {
+                if (t >= "A" && t <= "Z") {
+                    cl++;
+                }
+                else if (t >= "a" && t <= "z") {
+                    sl++;
+                }
+                else if (t >= "0" && t <= "9") {
+                    n++;
+                }
+
+            }
+            if (cl >= 1 && sl >= 1 && n >= 1) {
+                return true;
+            }
+            return false;
+        }
+    </script>
+</body>
+
+</html>
